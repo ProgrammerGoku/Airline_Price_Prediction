@@ -84,7 +84,6 @@ def main():
 
     input_data['day_type']= 1 if pd.to_datetime(selected_date).dayofweek in [5, 6] else 0 #Get the day type
 
-    # Predict prices for each airline
 
 
     # Display bar graph for prices of all airlines
@@ -93,6 +92,7 @@ def main():
         # Make prediction
         prediction = predict(input_data)
         st.success(f'The predicted price is: {prediction[0]:.2f}')
+        # Predict prices for each airline
         for other_airline in airlines:
                 input_data["Airline_LabelEncoded"] = airlines.index(other_airline)
                 data = pd.DataFrame(input_data, index=[0])
