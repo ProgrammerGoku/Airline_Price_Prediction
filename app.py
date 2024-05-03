@@ -1,6 +1,7 @@
 import streamlit as st
 import pickle
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Load the trained model
 with open('gradient_boost_reg.pkl', 'rb') as file:
@@ -12,7 +13,6 @@ def predict(input_data):
     # Convert input_data into DataFrame
     data = pd.DataFrame(input_data, index=[0])
     data = scale.transform(data)
-    print(data)
     # Make prediction
     prediction = model.predict(data)
     return prediction
@@ -68,7 +68,7 @@ def main():
 
     input_data["Destination_LabelEncoded"]=destinations.index(destination_option)
 
-    input_data['Duration_LabelEncoded']=0
+    input_data['Duration_LabelEncoded']=st.number_input("Duration Label",min_value=0,format="%d")
 
     infos_option=st.selectbox("Select Additionals",infos)
     input_data["Additional_Info_LabelEncoded"]=infos.index(infos_option) #Get the index of additional info
@@ -85,18 +85,16 @@ def main():
 
     input_data['day_type']= 1 if selected_date.strftime("%A") in ['Saturday','Sunday'] else 0 #Get the day type
 
+    # Display bar graph for prices of other airlines
+    if airline_option:
+        prices = [100, 200, 150, 300, 250, 180, 210, 220, 190, 280]  # Example prices for demonstration
+        plt.bar(airlines, prices)
+        plt.xlabel('Airlines')
+        plt.ylabel('Prices')
+        plt.title('Prices of Other Airlines')
+        plt.xticks(rotation=45)
+        st.pyplot(plt)
 
-    # print(input_data)
-
-
-
-
-
-
-
-    # for column in input_columns:
-    #         input_data[column] = st.text_input(column)
-    
     if st.button('Predict'):
         # Make prediction
         prediction = predict(input_data)
