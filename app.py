@@ -19,7 +19,7 @@ def predict(input_data):
 
 # Streamlit app
 def main():
-    st.title('Flight Prediction App')    
+    st.title('Airline Price Prediction App')    
     # Input fields
     input_columns = [
         "Total_Stops", "Duration_mins", "Date", "Month", "Airline_LabelEncoded",
